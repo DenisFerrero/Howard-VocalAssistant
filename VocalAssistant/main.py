@@ -1,4 +1,4 @@
 from lib.assistant import Assistant
 
-x = Assistant()
-x.listen()
+vocalAssistant = Assistant()
+vocalAssistant.run()

@@ -105,3 +105,6 @@ dist
 
 # Python
 __pycache__
+
+# VS Code
+.vscode/
