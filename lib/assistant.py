@@ -14,16 +14,13 @@ class Assistant:
   __offline_recognizer = None
   __offline_speaker = None
   __server = None
-  __debug = False
-  def __init__(self, trigger_word = 'Ehy', name = 'Howard', gender = 'female', server = '', debug = False):
+  def __init__(self, trigger_word = 'Ehy', name = 'Howard', gender = 'female', server = ''):
     # Name configuration
     self.__name = name
     # Trigger word configuration
     self.__trigger_word = trigger_word
     # Logger
     self.__console = Logger()
-    # Set debug logging level
-    self.__debug = debug
     # Init online and offline recognition
     self.__recognizer = SpeechRecognition.Recognizer()
     with SpeechRecognition.Microphone(sample_rate=44100) as MicSource:
@@ -46,8 +43,7 @@ class Assistant:
         audio = self.__recognizer.listen(MicSource, 5, 5)
         # Convert audio to text using Google
         data = self.__recognizer.recognize_google(audio)
-        if self.__debug:
-          self.__console.log(f'You said { data }')
+        self.__console.debug(f'You said { data }')
         return data.lower()
       except SpeechRecognition.RequestError:
         # Convert audio to text using Vosk (Offline)
@@ -57,25 +53,19 @@ class Assistant:
             self.__console.log(f'You said { res["text"] }')
           return res['text'].lower()
         else:
-          if self.__debug:
-            self.__console.warning('Error: Cannot understand what you said')
+          self.__console.debug('Error: Cannot understand what you said')
           return -1
         # Use Vosk
       except SpeechRecognition.UnknownValueError:
-        if self.__debug:
-          self.__console.warning('Error: Cannot understand what you just said')
+        self.__console.debug('Error: Cannot understand what you just said')
       except SpeechRecognition.WaitTimeoutError:
         pass
       return -1
 
   # Vocal assistant say things
   def say(self, things_to_say = "Sorry I didn't understand what you said"):
-    things_to_say = str(things_to_say)
-    try:
-      self.__offline_speaker.say(things_to_say)
-      self.__offline_speaker.runAndWait()
-    except:
-      self.__console.warning(f'Error while { self.__name } trying to speak')
+    self.__offline_speaker.say(things_to_say)
+    self.__offline_speaker.runAndWait()
 
   def run(self):
       while True:

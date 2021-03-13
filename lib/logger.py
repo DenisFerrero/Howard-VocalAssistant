@@ -1,6 +1,11 @@
 from time import gmtime, strftime
+import os
 
 class Logger:
+  __debug = False
+
+  def __init__ (self):
+    self.__is_debug = os.getenv('DEBUG', 'False') == 'True'
 
   # Current time
   def __current_time (self):
@@ -25,3 +30,8 @@ class Logger:
   # Danger log printer
   def danger(self, string):
     self.print_log(string, '\033[31m')
+
+  # Debug log printer
+  def debug(self, string):
+    if self.__debug:
+      self.print_log(string, '\033[35m')
