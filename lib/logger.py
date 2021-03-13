@@ -5,7 +5,7 @@ class Logger:
   __debug = False
 
   def __init__ (self):
-    self.__is_debug = os.getenv('DEBUG', 'False') == 'True'
+    self.__debug = os.getenv('DEBUG', 'False') == 'True'
 
   # Current time
   def __current_time (self):
