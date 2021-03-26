@@ -5,6 +5,8 @@ import speech_recognition as SpeechRecognition
 import json
 from vosk import Model, KaldiRecognizer
 import pyttsx3
+# other imports
+import os
 
 class Assistant:
   __name = ''
@@ -26,7 +28,7 @@ class Assistant:
     with SpeechRecognition.Microphone(sample_rate=44100) as MicSource:
       # Calibrate Microphone for ambient noises
       self.__recognizer.adjust_for_ambient_noise(MicSource)
-    self.__offline_recognizer = KaldiRecognizer(Model("./lib/model-sm-en"), 44100)
+    self.__offline_recognizer = KaldiRecognizer(Model('./lib/model-sm-en'), 44100)
     self.__offline_speaker = pyttsx3.init()
     # Setting VocalAssistant gender
     if gender.lower() == 'female':
@@ -84,3 +86,22 @@ class Assistant:
           else:
             # Cannot understand what you said
             self.say()
+
+  @staticmethod
+  def readConfig():
+    # Declare default config
+    config = ['Hey', 'Howard', '']
+    # If the file exists
+    if os.path.isfile('conf.json'):
+      with open('conf.json') as f:
+        data = json.load(f)
+        # Check if TRIGGER_WORD is not empty and assign it
+        if data['TRIGGER_WORD']:
+          config[0] = data['TRIGGER_WORD']
+        # Check if ASSISTANT_NAME is not empty and assign it
+        if data['ASSISTANT_NAME']:
+          config[1] = data['ASSISTANT_NAME']
+        # Check if ASSISTANT_GENDER is not empty and assign it
+        if data['ASSISTANT_GENDER']:
+          config[2] = data['ASSISTANT_GENDER']
+    return config
