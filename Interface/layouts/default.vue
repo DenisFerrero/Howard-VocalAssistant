@@ -14,12 +14,7 @@
   </div>
 </template>
 <script>
-import SocialFooter from '~/components/SocialFooter.vue'
-
 export default {
-  components: {
-    SocialFooter,
-  },
   data() {
     return {
       social: {
