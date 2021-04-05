@@ -35,10 +35,6 @@ export default {
       return this.$i18n.locale
     },
   },
-  mounted() {
-    // eslint-disable-next-line no-console
-    console.log(this.$i18n.locales)
-  },
   methods: {
     getRegionByCode(code) {
       return code.split('-')[1]

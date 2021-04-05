@@ -8,6 +8,10 @@ import _ from 'lodash'
 export default {
   deviceCPU: (state) => _.cloneDeep(state.deviceStats.usageCPU),
   deviceRAM: (state) => _.cloneDeep(state.deviceStats.usageRAM),
-  assistantStatus: (state) => _.cloneDeep(state.assistantStatus),
-  connectionStatus: (state) => _.cloneDeep(state.connectionStatus),
+  assistantConfigInfo: (state) => _.cloneDeep(state.assistantConfigInfo),
+  connectionInfo: (state) => {
+    const obj = { ...state.assistantStatus }
+    obj.isSocketConnected = state.isSocketConnected
+    return _.cloneDeep(obj)
+  },
 }
