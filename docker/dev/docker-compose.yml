@@ -1,0 +1,27 @@
+version: '3'
+services:
+  vocal-assistant:
+    image: vocal-assistant
+    env_file:
+      - process.env
+    ports:
+      - "800:8000"
+    volumes:
+      - ./config/:/home/dist
+    networks: 
+      - proxyNet
+  web-interface:
+    image: interface
+    env_file:
+      - process.env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - vocal-assistant
+    command: ./wait_for_it.sh vocal-assistant:8000 -- npm run start
+    networks:
+      - proxyNet
+
+networks:
+  proxyNet:
+    name: vocalAssistantNet

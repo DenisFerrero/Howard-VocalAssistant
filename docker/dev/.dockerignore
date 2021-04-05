@@ -1,0 +1,8 @@
+# Ignore some unused things to run the container
+.vscode/
+docker/prod/
+lib/__pychache__/
+.gitignore
+LICENSE
+README.md
+conf.json
