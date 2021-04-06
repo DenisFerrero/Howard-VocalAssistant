@@ -9,8 +9,9 @@ SpeechRecognition = "*"
 pyAudio = "*"
 vosk = "*"
 pyttsx3 = "*"
-python-socketio = "*"
 psutil = "*"
-Sanic = "*"
+Flask = "*"
+Flask-SocketIO = "*"
+eventlet = "*"
 
 [dev-packages]

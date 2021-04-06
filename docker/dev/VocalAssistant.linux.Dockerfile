@@ -37,7 +37,7 @@ WORKDIR /home/dist
 # Install application into container
 COPY ./Assistant /home/dist
 
-EXPOSE 8080
+EXPOSE 5000
 
 # Run the application
-ENTRYPOINT ["python", "advanced.main.py"]
+ENTRYPOINT ["flask", "run", "--host=0.0.0.0"]
