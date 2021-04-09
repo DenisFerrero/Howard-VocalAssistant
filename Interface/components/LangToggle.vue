@@ -5,16 +5,17 @@
         {{ currentLocale }}
         <country-flag :country="getRegionByCode(currentLocale)"></country-flag>
       </template>
-      <b-dropdown-item
+      <NuxtLink
         v-for="locale in availableLocales"
         :key="locale.code"
+        class="dropdown-item"
         :to="switchLocalePath(locale.code)"
         @click.prevent.stop="$i18n.setLocale(locale.code)"
       >
         {{ locale.iso }}
         <!-- Show the flag -->
         <country-flag :country="getRegionByCode(locale.code)"></country-flag>
-      </b-dropdown-item>
+      </NuxtLink>
     </b-dropdown>
   </div>
 </template>
