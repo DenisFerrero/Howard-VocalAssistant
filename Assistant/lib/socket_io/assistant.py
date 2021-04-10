@@ -1,23 +1,21 @@
-from flask_socketio import Namespace
+from flask_socketio import Namespace, emit
 
 # Connection utility
 from urllib.error import URLError
 from urllib.request import urlopen 
 
-# Uptime and CPU, RAM count lib
+# Uptime, CPU and RAM usage lib
 import psutil
 import time
 import os
 
 class AssistantNamespace(Namespace):
-  def assistant_info_get(self):
-    response: []
-    # Check if it's connected to internet
-    response.append(is_connected())
-    # TODO Manage
-    # Check if the socket to the target server is connected
-    response.append(True)
-    return response
+  def on_connect(self):
+    # Broadcasting the assistant's data, this way all interfaces are updated
+    emit('assistant_config_res', assistant_info(), broadcast=True)
+
+  def assistant_config_get(self):
+    emit('assistant_config_res', assistant_info(), broadcast=True)
 
   def device_usage_get(self):
     response = []
@@ -30,15 +28,18 @@ class AssistantNamespace(Namespace):
     # From StackOverflow https://stackoverflow.com/questions/2598145/how-to-retrieve-the-process-start-time-or-uptime-in-python#answer-4559733
     response.append(time.time() - psutil.boot_time())
     # Return data
-    return response
+    emit('device_usage_res', response)
 
-# From StackOverflow https://stackoverflow.com/questions/3764291/checking-network-connection#answer-3764660
-# TODO Is google.com available in all states?
-def is_connected():
-  try:
-    # Try connection to google.com
-    urlopen('https://google.com', timeout=1)
-    return True
-    # If the connection fail
-  except URLError as err: 
-    return False
+def assistant_info():
+  response = []
+  # TODO Manage
+  # Server address
+  response.append('http://127.0.0.1')
+  # UUID if the assistant is saved
+  response.append('')
+  # Check if the assistant is saved
+  response.append(False)
+  # Check if the assistant is registered to a user
+  response.append(False)
+  # Return the data
+  return response

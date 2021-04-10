@@ -1,11 +1,10 @@
 import dayjs from 'dayjs'
 // Number of data to show in the chart
-const dataChartLimit = process.env.DATA_CHART_LIMIT || 10
+const dataChartLimit = parseInt(process.env.DATA_CHART_LIMIT) || 10
 
 export default {
-  parseDeviceStats({ commit, state }, data) {
-    // Update the Device state
-    commit('SET_DEVICE_USAGE', 'Updating')
+  parseDeviceUsage({ commit, state }, data) {
+    commit('setDeviceUsageState', 'Updating')
     // Check if the variable are OK to be managed
     if (Array.isArray(data) && data.length > 0) {
       // If the first element is a number
@@ -21,16 +20,15 @@ export default {
         // Parse the hour of device uptime
         data[2] = dayjs().startOf('day').second(data[2]).format('hh:mm:ss A')
     }
-    // Update the Device state
-    commit('SET_DEVICE_USAGE', 'Stable')
-    commit('SET_DEVICE_STATS', data)
+    commit('setDeviceUsage', data)
+    commit('setDeviceUsageState', 'Stable')
   },
 }
 
 function parseUsageData(accessor, params, value) {
   // Duplicate current labels and dataset's data
-  const labels = [...accessor.deviceStats[params].labels]
-  const currData = [...accessor.deviceStats[params].datasets[0].data]
+  const labels = [...accessor.deviceUsage[params].labels]
+  const currData = [...accessor.deviceUsage[params].datasets[0].data]
   if (labels && currData) {
     // Remove element if has reached the limit
     if (currData.length >= dataChartLimit) {
@@ -41,7 +39,7 @@ function parseUsageData(accessor, params, value) {
     labels.push(dayjs().format('hh:mm:ss'))
     currData.push(value)
     // Return the updated values
-    const tmpData = { ...accessor.deviceStats[params].datasets[0] }
+    const tmpData = { ...accessor.deviceUsage[params].datasets[0] }
     tmpData.data = currData
     return { labels, datasets: [tmpData] }
   }

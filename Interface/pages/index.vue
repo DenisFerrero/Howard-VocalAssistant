@@ -21,30 +21,26 @@
             <!-- Button to create a new record on the db -->
             <!-- Disabled if socket is not connected and hide if assistant already saved on DB -->
             <b-button
-              v-if="!assistantConfigInfo.isSaved"
+              v-if="!assistantConfig.isSaved"
               variant="danger"
               size="lg"
-              :disabled="!connInfo.isSocketConnected"
+              :disabled="!(SocketStatus.status === 'OK')"
             >
               {{ $t('Bind to server') }}
             </b-button>
             <!-- Info to register the assistant on the platform -->
             <b-card
-              v-if="
-                assistantConfigInfo.isSaved && !assistantConfigInfo.isRegistered
-              "
+              v-if="assistantConfig.isSaved && !assistantConfig.isRegistered"
             >
               <b-card-text>
                 <small>{{ $t('Code to register the assistant') }}</small>
                 <div class="font-weight-bold">
-                  {{ assistantConfigInfo.uuid }}
+                  {{ assistantConfig.uuid }}
                 </div>
               </b-card-text>
             </b-card>
             <b-card
-              v-if="
-                assistantConfigInfo.isSaved && assistantConfigInfo.isRegistered
-              "
+              v-if="assistantConfig.isSaved && assistantConfig.isRegistered"
             >
               <b-card-text class="font-weight-bold">
                 {{ $t('Assistant already registered to the service') }}
@@ -53,8 +49,8 @@
             <!-- Assistant server info -->
             <i18n path="Assistant server connection" tag="p">
               <template #server>
-                <a :href="assistantConfigInfo.server" target="_blank">{{
-                  assistantConfigInfo.server
+                <a :href="assistantConfig.server" target="_blank">{{
+                  assistantConfig.server
                 }}</a>
               </template>
             </i18n>
@@ -79,46 +75,29 @@
   </b-container>
 </template>
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
       chartOptions: {},
+      socketStatus: {},
     }
   },
   computed: {
     ...mapGetters({
-      usageRAM: 'assistant/deviceCPU',
-      usageCPU: 'assistant/deviceRAM',
-      connInfo: 'assistant/connectionInfo',
-      assistantConfigInfo: 'assistant/assistantConfigInfo',
+      usageRAM: 'assistant/RamUsage',
+      usageCPU: 'assistant/CpuUsage',
+      assistantConfig: 'assistant/assistantConfig',
     }),
   },
   mounted() {
-    // Before running clear all Intervals
-    // (need to do this cause when changing language will be added a new Interval)
-    // https://gist.github.com/mcenirm/4165198
-    ;(function (w) {
-      w = w || window
-      let i = w.setInterval(function () {}, 100000)
-      while (i >= 0) {
-        w.clearInterval(i--)
-      }
-    })(/* window */)
-
-    setInterval(() => {
-      this.saveDeviceStats([Math.random() * 10, Math.random() * 10])
-    }, 1000)
-    // this.socket = this.$nuxtSocket({
-    //   name: 'Assistant',
-    //   channel: '/assistant',
-    // })
+    this.socket = this.$nuxtSocket({
+      name: 'Assistant',
+      channel: '/assistant',
+    })
   },
   methods: {
-    ...mapActions({
-      saveDeviceStats: 'assistant/parseDeviceStats',
-    }),
     fromKeyToName(key) {
       switch (key) {
         case 'isOnline': {

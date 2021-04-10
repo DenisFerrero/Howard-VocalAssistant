@@ -5,22 +5,26 @@ services:
     env_file:
       - process.env
     ports:
-      - "800:8000"
+      - "5000:5000"
     volumes:
-      - ./config/:/home/dist
+      - ./config/:/home/dist/config
     networks: 
-      - proxyNet
+      proxyNet:
+        aliases:
+          - interface
+    restart: 'always'
   web-interface:
     image: interface
     env_file:
       - process.env
     ports:
-      - "5000:5000"
+      - "8000:5000"
     depends_on:
       - vocal-assistant
-    command: ./wait_for_it.sh vocal-assistant:8000 -- npm run start
+    command: ./wait_for_it.sh vocal-assistant:5000 -- npm run dev
     networks:
       - proxyNet
+    restart: 'always'
 
 networks:
   proxyNet:

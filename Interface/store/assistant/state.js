@@ -2,20 +2,18 @@ import dayjs from 'dayjs'
 
 export default () => {
   return {
-    DEVICE_USAGE: 'Stable',
-    isSocketConnected: false,
-    assistantStatus: {
-      isOnline: false,
-      hasServerConnection: false,
-    },
-    assistantConfigInfo: {
+    // States
+    deviceUsageState: 'Stable',
+    // Info related to the configuration
+    assistantConfig: {
       // Link has to be with http/https before
       server: '',
+      uuid: '',
       isSaved: false,
       isRegistered: false,
-      uuid: '',
     },
-    deviceStats: {
+    // Device info hardware info
+    deviceUsage: {
       // CPU usage info for the chart
       usageCPU: {
         labels: [],

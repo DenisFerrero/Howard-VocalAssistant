@@ -18,7 +18,7 @@ from lib.socket_io.assistant import AssistantNamespace
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-socket_io = SocketIO(app)
+socket_io = SocketIO(app, cors_allowed_origins="*") # Enable CORS
 
 # Assistant namespace
 socket_io.on_namespace(AssistantNamespace('/assistant'))
@@ -28,6 +28,4 @@ def index():
   return 'Test'
 
 if __name__ == '__main__':
-  socket_io.run(app)
-
-print('Server and SocketIO are up and running!\nThey are both available on default port 5000')
+  socket_io.run(app, host='0.0.0.0')

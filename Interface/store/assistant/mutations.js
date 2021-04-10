@@ -1,28 +1,28 @@
 export default {
-  SET_ASSISTANT_STATE(state, data) {
+  setDeviceUsageState(state, data) {
+    state.deviceUsageState = data
+  },
+  setAssistantConfig(state, data) {
     if (Array.isArray(data) && data.length > 0) {
-      if (typeof data[0] === 'boolean') state.assistantStatus.isOnline = data[0]
-      if (typeof data[1] === 'boolean')
-        state.assistantStatus.hasServerConnection = data[1]
+      if (typeof data[0] === 'string') state.assistantConfig.server = data[0]
+      if (typeof data[1] === 'string') state.assistantConfig.uuid = data[1]
+      if (typeof data[2] === 'boolean') state.assistantConfig.isSaved = data[2]
+      if (typeof data[3] === 'boolean')
+        state.assistantConfig.isRegistered = data[3]
     }
   },
-  SET_DEVICE_STATS(state, data) {
+  setDeviceUsage(state, data) {
     const newData = {
-      usageCPU: state.deviceStats.usageCPU,
-      usageRAM: state.deviceStats.usageRAM,
-      deviceUpTime: state.deviceStats.deviceUpTime,
+      usageCPU: state.deviceUsage.usageCPU,
+      usageRAM: state.deviceUsage.usageRAM,
+      deviceUpTime: state.deviceUsage.deviceUpTime,
     }
     if (Array.isArray(data) && data.length > 0) {
       if (typeof data[0] === 'object') newData.usageCPU = data[0]
       if (typeof data[1] === 'object') newData.usageRAM = data[1]
       if (typeof data[2] === 'string') newData.deviceUpTime = data[2]
     }
-    state.deviceStats = Object.assign(newData)
-  },
-  SET_SOCKET_CONNECTION(state, data) {
-    state.isSocketConnected = data
-  },
-  SET_DEVICE_USAGE(state, data) {
-    state.DEVICE_USAGE = data
+    // Need to assign this way to make sure to have triggered the update of the content
+    state.deviceUsage = Object.assign(newData)
   },
 }

@@ -13,6 +13,8 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  target: 'server',
+
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: ['@fortawesome/fontawesome-svg-core/styles.css'],
 
@@ -54,6 +56,23 @@ export default {
       { code: 'it-IT', iso: 'it-IT', file: 'it-IT.js', dir: 'ltr' },
     ],
     lazy: true,
+  },
+
+  io: {
+    sockets: [
+      {
+        // Assistant communication
+        name: 'Assistant',
+        // If not found env variable connect locally because the server is available on the same network (dev env)
+        url: process.env.ASSISTANT_SOCKET || 'http://127.0.0.1:5000',
+        default: true,
+        vuex: {
+          mutations: ['assistant_config_res --> assistant/setAssistantConfig'],
+          actions: ['device_usage_res --> assistant/parseDeviceUsage'],
+        },
+        namespaces: ['/assistant'],
+      },
+    ],
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

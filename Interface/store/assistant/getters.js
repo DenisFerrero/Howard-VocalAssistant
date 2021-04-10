@@ -6,12 +6,7 @@ import _ from 'lodash'
 // Solution by https://github.com/nuxt/nuxt.js/issues/1917#issuecomment-370363332
 
 export default {
-  deviceCPU: (state) => _.cloneDeep(state.deviceStats.usageCPU),
-  deviceRAM: (state) => _.cloneDeep(state.deviceStats.usageRAM),
-  assistantConfigInfo: (state) => _.cloneDeep(state.assistantConfigInfo),
-  connectionInfo: (state) => {
-    const obj = { ...state.assistantStatus }
-    obj.isSocketConnected = state.isSocketConnected
-    return _.cloneDeep(obj)
-  },
+  CpuUsage: (state) => _.cloneDeep(state.deviceUsage.usageCPU),
+  RamUsage: (state) => _.cloneDeep(state.deviceUsage.usageRAM),
+  assistantConfig: (state) => _.cloneDeep(state.assistantConfig),
 }
