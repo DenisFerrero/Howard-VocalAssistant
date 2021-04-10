@@ -1,39 +1,23 @@
 <template>
   <footer>
     <div class="socialLink">
-      <!-- Github or Gitlab link -->
-      <a v-if="validateInfo(git, regex.git)" :href="git">
-        <FaLayer class="fa-lg">
-          <FaIcon icon="circle" />
-          <FaIcon
-            class="icon-content"
-            :icon="['fab', gitIconClass]"
-            transform="shrink-6"
-          />
-        </FaLayer>
-      </a>
-      <!-- Instagram link -->
-      <a v-if="validateInfo(instagram, regex.instagram)" :href="instagram">
-        <FaLayer class="fa-lg">
-          <FaIcon icon="circle" />
-          <FaIcon
-            class="icon-content"
-            :icon="['fab', 'instagram']"
-            transform="shrink-6"
-          />
-        </FaLayer>
-      </a>
-      <!-- Linkedin link -->
-      <a v-if="validateInfo(linkedin, regex.linkedin)" :href="linkedin">
-        <FaLayer class="fa-lg">
-          <FaIcon icon="circle" />
-          <FaIcon
-            class="icon-content"
-            :icon="['fab', 'linkedin']"
-            transform="shrink-6"
-          />
-        </FaLayer>
-      </a>
+      <template v-for="(account, key) in accounts">
+        <a
+          v-if="validateInfo(account, regex[key])"
+          :key="key"
+          :href="account"
+          target="_blank"
+        >
+          <FaLayer class="fa-lg">
+            <FaIcon icon="circle"></FaIcon>
+            <FaIcon
+              class="icon-content"
+              :icon="['fab', getIconClass(key, account)]"
+              transform="shrink-6"
+            />
+          </FaLayer>
+        </a>
+      </template>
     </div>
     <div
       v-if="typeof company === 'string' && company.length > 0"
@@ -51,17 +35,33 @@ import dayjs from 'dayjs'
 export default {
   name: 'SocialFooter',
   props: {
-    git: {
-      type: String,
-      default: null,
-    },
-    instagram: {
-      type: String,
-      default: null,
-    },
-    linkedin: {
-      type: String,
-      default: null,
+    accounts: {
+      type: Object,
+      validator(value) {
+        const defaultAccount = [
+          'facebook',
+          'git',
+          'instagram',
+          'linkedin',
+          'twitter',
+        ]
+        Object.keys(value).forEach((key) => {
+          const found = defaultAccount.find(
+            (accountType) => key === accountType
+          )
+          if (!found) return null
+        })
+        return true
+      },
+      default: () => {
+        return {
+          facebook: null,
+          git: null,
+          instagram: null,
+          linkedin: null,
+          twitter: null,
+        }
+      },
     },
     company: {
       type: String,
@@ -79,22 +79,25 @@ export default {
     }
   },
   computed: {
-    gitIconClass() {
-      // Icon class of Git property
-      if (this.git && this.git.length > 0) {
-        // Check if it's github
-        if (this.git.match('github.com')) return 'github'
-        // Check if it's gitlab
-        else if (this.git.match('gitlab.com')) return 'gitlab'
-      }
-      // By default return git icon
-      return 'git'
-    },
     currentYear() {
       return dayjs().format('YYYY')
     },
   },
   methods: {
+    // Get class for icon
+    getIconClass(type, value) {
+      // If match git category
+      if (value.match(/git\w*\.com/)) {
+        // Evaluate if it's github
+        if (value.match('github.com')) return 'github'
+        // Gitlab
+        else if (value.match('gitlab.com')) return 'gitlab'
+        // Else return standard git icon
+        else return 'git'
+      }
+      // Other type is easier it's just the key name
+      else return type
+    },
     // General function for validation props
     validateInfo(info, regex) {
       return info && info.length > 0 && info.match(regex)
@@ -104,35 +107,12 @@ export default {
 </script>
 
 <style scoped>
-/* Edited by the style given by https://epicbootstrap.com/snippets/footer-basic  */
+/* Edited the style given by https://epicbootstrap.com/snippets/footer-basic  */
 footer {
   padding: 10px 0;
   background-color: #ffe;
   border-top: 1px solid black;
   color: #4b4c4d;
-}
-
-footer ul {
-  padding: 0;
-  list-style: none;
-  text-align: center;
-  font-size: 18px;
-  line-height: 1.6;
-  margin-bottom: 0;
-}
-
-footer li {
-  padding: 0 10px;
-}
-
-footer ul a {
-  color: inherit;
-  text-decoration: none;
-  opacity: 0.8;
-}
-
-footer ul a:hover {
-  opacity: 1;
 }
 
 footer .socialLink {

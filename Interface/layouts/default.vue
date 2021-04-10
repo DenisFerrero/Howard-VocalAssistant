@@ -4,13 +4,7 @@
       <Nuxt />
     </div>
     <!-- Social link is required having http/https  -->
-    <SocialFooter
-      class="bg-light"
-      :instagram="social.instagram"
-      :git="social.git"
-      :linkedin="social.linkedin"
-      :company="company"
-    />
+    <SocialFooter class="bg-light" :accounts="social" :company="company" />
   </div>
 </template>
 <script>
