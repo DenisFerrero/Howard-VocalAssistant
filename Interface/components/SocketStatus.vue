@@ -1,5 +1,5 @@
 <template>
-  <no-ssr v-if="status.connectUrl">
+  <client-only v-if="status.connectUrl">
     <b-card :title="$t(title)">
       <b-card-text v-for="entry in statusTbl" :key="entry.item">
         <b-row cols="12">
@@ -14,7 +14,7 @@
         </b-row>
       </b-card-text>
     </b-card>
-  </no-ssr>
+  </client-only>
 </template>
 
 <script>

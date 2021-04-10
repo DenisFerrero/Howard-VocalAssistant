@@ -24,7 +24,7 @@
               v-if="!assistantConfig.isSaved"
               variant="danger"
               size="lg"
-              :disabled="!(SocketStatus.status === 'OK')"
+              :disabled="!(socketStatus.status === 'OK')"
             >
               {{ $t('Bind to server') }}
             </b-button>
