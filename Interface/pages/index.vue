@@ -15,22 +15,7 @@
           </b-col>
           <!-- Connection property listing -->
           <b-col cols="12" md="6">
-            <b-card :title="$t('Connection info')">
-              <b-card-text
-                v-for="(value, key) in connInfo"
-                :key="key"
-                cols="12"
-                class="p-2"
-              >
-                <!-- Conditional icon -->
-                <FaIcon
-                  :icon="['fas', `${value ? 'check' : 'times'}-circle`]"
-                  :class="value ? 'text-success' : 'text-danger'"
-                ></FaIcon>
-                <!-- Property name -->
-                <span class="ml-3">{{ $t(fromKeyToName(key)) }}</span>
-              </b-card-text>
-            </b-card>
+            <SocketStatus :status="socketStatus" />
           </b-col>
           <b-col cols="12" md="6" class="text-center mt-2 mt-md-0">
             <!-- Button to create a new record on the db -->
