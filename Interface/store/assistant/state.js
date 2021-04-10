@@ -4,6 +4,7 @@ export default () => {
   return {
     // States
     deviceUsageState: 'Stable',
+    socketEmitCount: 0,
     // Info related to the configuration
     assistantConfig: {
       // Link has to be with http/https before

@@ -18,7 +18,7 @@ from lib.socket_io.assistant import AssistantNamespace
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-socket_io = SocketIO(app, cors_allowed_origins="*") # Enable CORS
+socket_io = SocketIO(app, cors_allowed_origins="*", logger=True, engineio_logger=True) # Enable CORS
 
 # Assistant namespace
 socket_io.on_namespace(AssistantNamespace('/assistant'))

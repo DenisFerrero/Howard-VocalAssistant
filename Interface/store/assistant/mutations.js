@@ -1,4 +1,8 @@
 export default {
+  setSocketEmitCount(state) {
+    state.socketEmitCount++
+  },
+
   setDeviceUsageState(state, data) {
     state.deviceUsageState = data
   },

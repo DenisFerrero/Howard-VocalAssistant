@@ -22,6 +22,10 @@ export default {
     }
     commit('setDeviceUsage', data)
     commit('setDeviceUsageState', 'Stable')
+    // By incrementing socketEmitCount will be triggered the emit event
+    setTimeout(() => {
+      commit('setSocketEmitCount')
+    }, 1000)
   },
 }
 

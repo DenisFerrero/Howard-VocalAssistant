@@ -80,7 +80,22 @@ import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
-      chartOptions: {},
+      chartOptions: {
+        layout: {
+          padding: 20,
+        },
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                min: 0,
+                max: 100,
+                stepSize: 20,
+              },
+            },
+          ],
+        },
+      },
       socketStatus: {},
     }
   },

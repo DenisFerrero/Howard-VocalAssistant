@@ -69,6 +69,7 @@ export default {
         vuex: {
           mutations: ['assistant_config_res --> assistant/setAssistantConfig'],
           actions: ['device_usage_res --> assistant/parseDeviceUsage'],
+          emitBacks: [{ 'assistant/socketEmitCount': 'device_usage_get' }],
         },
         namespaces: ['/assistant'],
       },

@@ -10,5 +10,5 @@ export default {
   'Code to register the assistant': 'Code to register the assistant',
   'Assistant already registered to the service':
     'Assistant already registered to the service',
-  'Connection info': 'Connection info',
+  'Socket status': 'Socket status',
 }

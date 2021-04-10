@@ -10,5 +10,5 @@ export default {
   'Code to register the assistant': 'Codice per registrare l`assistente',
   'Assistant already registered to the service':
     'Assistente già registrato al servizio',
-  'Connection info': 'Informazioni sulla connessione',
+  'Socket status': 'Stato del socket',
 }
