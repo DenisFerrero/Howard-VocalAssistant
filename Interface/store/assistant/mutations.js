@@ -19,12 +19,10 @@ export default {
     const newData = {
       usageCPU: state.deviceUsage.usageCPU,
       usageRAM: state.deviceUsage.usageRAM,
-      deviceUpTime: state.deviceUsage.deviceUpTime,
     }
     if (Array.isArray(data) && data.length > 0) {
       if (typeof data[0] === 'object') newData.usageCPU = data[0]
       if (typeof data[1] === 'object') newData.usageRAM = data[1]
-      if (typeof data[2] === 'string') newData.deviceUpTime = data[2]
     }
     // Need to assign this way to make sure to have triggered the update of the content
     state.deviceUsage = Object.assign(newData)

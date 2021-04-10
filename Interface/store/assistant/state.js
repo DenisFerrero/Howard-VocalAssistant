@@ -1,5 +1,3 @@
-import dayjs from 'dayjs'
-
 export default () => {
   return {
     // States
@@ -37,7 +35,6 @@ export default () => {
           },
         ],
       },
-      deviceUpTime: dayjs().format('hh:mm:ss A'),
     },
   }
 }

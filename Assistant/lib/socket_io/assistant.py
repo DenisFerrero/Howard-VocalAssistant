@@ -2,7 +2,6 @@ from flask_socketio import Namespace, emit
 
 # Uptime, CPU and RAM usage lib
 import psutil
-import time
 import os
 
 class AssistantNamespace(Namespace):
@@ -34,12 +33,8 @@ def assistant_info():
 def assistant_usage():
   response = []
   # Get CPU usage
-  load1, load5, load15 = psutil.getloadavg()
-  response.append((load15/os.cpu_count()) * 100)
+  response.append(psutil.cpu_percent())
   # Get RAM usage
   response.append(psutil.virtual_memory()[2])
-  # Get device time
-  # From StackOverflow https://stackoverflow.com/questions/2598145/how-to-retrieve-the-process-start-time-or-uptime-in-python#answer-4559733
-  response.append(time.time() - psutil.boot_time())
   # Return the data
   return response

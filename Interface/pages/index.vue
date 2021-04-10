@@ -78,6 +78,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
+  name: 'Index',
   data() {
     return {
       chartOptions: {
@@ -110,6 +111,8 @@ export default {
     this.socket = this.$nuxtSocket({
       name: 'Assistant',
       channel: '/assistant',
+      persist: true,
+      // Keep the socket persistent, this way will kept active when changing language
     })
   },
   methods: {

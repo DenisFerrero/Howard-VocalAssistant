@@ -15,10 +15,6 @@ export default {
       if (typeof data[1] === 'number') {
         data[1] = parseUsageData(state, 'usageRAM', data[1])
       }
-      // If the third element is a number
-      if (typeof data[2] === 'number')
-        // Parse the hour of device uptime
-        data[2] = dayjs().startOf('day').second(data[2]).format('hh:mm:ss A')
     }
     commit('setDeviceUsage', data)
     commit('setDeviceUsageState', 'Stable')
