@@ -13,7 +13,7 @@ class Logger:
   
   # Default print log
   def print_log (self, string, color):
-    print(f'{ color } [{self.__current_time()}] { string } \033[39m')
+    print(f'{ color } [{self.__current_time()}] { string } \033[39m', flush=True)
 
   # Default log printer
   def log(self, string):

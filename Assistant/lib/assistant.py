@@ -34,7 +34,7 @@ class Assistant:
     if gender.lower() == 'female':
       voices = self.__offline_speaker.getProperty('voices')
       self.__offline_speaker.setProperty('voice', voices[1].id)
-    self.__console.log(f'Vocal assistant successfully inited. Trigger him by saying "{ self.__trigger_word } { self.__name }"')
+    self.__console.log(f'Vocal assistant successfully started. Trigger him by saying "{ self.__trigger_word } { self.__name }"')
     self.say(f"Hello I'm { self.__name } your Vocal assistant, you can activate me by saying { self.__trigger_word } { self.__name }")
   
   # Listening function
@@ -70,30 +70,30 @@ class Assistant:
     self.__offline_speaker.runAndWait()
 
   def run(self):
-      while True:
-        # Listened if the vocal assistant is triggered
-        listened = self.listen()
-        if listened != -1 and f'{ self.__trigger_word } { self.__name }'.lower() in listened:
-          # Send request to a server by using API or SocketIO
-          if type(self.__server) == str and len(self.__server) > 0:
-            response = requests.get(self.__server, params={ 'user_request': listened })
-          # Default response
-          else:
-            response = f'You said {listened}'
-          if type(response) == str:
-            # Play the response
-            self.say(response)
-          else:
-            # Cannot understand what you said
-            self.say()
+    while True:
+      # Listened if the vocal assistant is triggered
+      listened = self.listen()
+      if listened != -1 and f'{ self.__trigger_word } { self.__name }'.lower() in listened:
+        # Send request to a server by using API or SocketIO
+        if type(self.__server) == str and len(self.__server) > 0:
+          response = requests.get(self.__server, params={ 'user_request': listened })
+        # Default response
+        else:
+          response = f'You said {listened}'
+        if type(response) == str:
+          # Play the response
+          self.say(response)
+        else:
+          # Cannot understand what you said
+          self.say()
 
   @staticmethod
   def read_config():
     # Declare default config
     config = ['Hey', 'Howard', '']
     # If the file exists
-    if os.path.isfile('conf.json'):
-      with open('conf.json') as f:
+    if os.path.isfile('./config/conf.json'):
+      with open('./config/conf.json') as f:
         data = json.load(f)
         # Check if TRIGGER_WORD is not empty and assign it
         if data['TRIGGER_WORD']:
