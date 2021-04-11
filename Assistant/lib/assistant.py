@@ -87,6 +87,11 @@ class Assistant:
           # Cannot understand what you said
           self.say()
 
+  def is_saved(self):
+    response = [self.__server]
+    # TODO Manage this checks
+    return response
+
   @staticmethod
   def read_config():
     # Declare default config

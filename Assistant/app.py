@@ -34,7 +34,9 @@ else:
   socket_io = SocketIO(app, cors_allowed_origins="*") # Production configuration
 
 # Assistant namespace
-socket_io.on_namespace(AssistantNamespace('/assistant'))
+assistant_namespace = AssistantNamespace('/assistant')
+assistant_namespace.set_assistant(vocalAssistant)
+socket_io.on_namespace(assistant_namespace)
 
 @app.route('/')
 def index():
