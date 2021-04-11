@@ -12,9 +12,11 @@ export default {
   data() {
     return {
       social: {
+        facebook: process.env.SOCIAL_FACEBOOK || '',
         instagram: process.env.SOCIAL_INSTAGRAM || '',
         git: process.env.SOCIAL_GIT || '',
         linkedin: process.env.SOCIAL_LINKEDIN || '',
+        twitter: process.env.SOCIAL_TWITTER || '',
       },
       company: process.env.COMPANY_NAME || '',
     }

@@ -3,28 +3,34 @@ services:
   vocal-assistant:
     image: vocal-assistant
     env_file:
-      - process.env
+      - ./env/assistant.env
     ports:
       - "5000:5000"
     volumes:
       - ./config/:/home/dist/config
+      # Share device options with the container
+      - /boot:/boot
+      - /sys:/dockerhost/sys:ro
+      - /etc:/dockerhost/etc:ro
+      - /proc:/dockerhost/proc:ro
+    devices:
+      # Share microphone and speaker to the container
+      - /dev/snd:/dev/snd
     networks: 
-      proxyNet:
-        aliases:
-          - interface
-    restart: 'always'
+      - proxyNet
+    restart: 'unless-stopped'
   web-interface:
     image: interface
     env_file:
-      - process.env
+      - ./env/interface.env
     ports:
       - "8000:5000"
     depends_on:
       - vocal-assistant
-    command: ./wait_for_it.sh vocal-assistant:5000 -- npm run dev
+    command: ./wait_for_it.sh vocal-assistant:5000 -- npm run start
     networks:
       - proxyNet
-    restart: 'always'
+    restart: 'unless-stopped'
 
 networks:
   proxyNet:
