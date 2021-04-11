@@ -38,7 +38,7 @@ socket_io.on_namespace(AssistantNamespace('/assistant'))
 
 @app.route('/')
 def index():
-  return 'Server is up and running!'
+  return 'Assistant is up and running!'
 
 if __name__ == '__main__':
   # Run socketIon

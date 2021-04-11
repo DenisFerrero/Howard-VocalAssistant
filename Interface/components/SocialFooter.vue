@@ -19,11 +19,13 @@
         </a>
       </template>
     </div>
-    <div
-      v-if="typeof company === 'string' && company.length > 0"
-      class="copyright"
-    >
-      {{ company }} - {{ currentYear }}
+    <div class="copyright">
+      <span v-if="company.length > 0"
+        >{{ company }} - {{ currentYear }} -
+      </span>
+      <span>
+        {{ softwareVersion }}
+      </span>
     </div>
   </footer>
 </template>
@@ -31,6 +33,7 @@
 <script>
 // eslint-disable-next-line no-unused-vars
 import dayjs from 'dayjs'
+import { version } from '~/package.json'
 
 export default {
   name: 'SocialFooter',
@@ -65,7 +68,7 @@ export default {
     },
     company: {
       type: String,
-      default: null,
+      default: '',
     },
   },
   data() {
@@ -81,6 +84,9 @@ export default {
   computed: {
     currentYear() {
       return dayjs().format('YYYY')
+    },
+    softwareVersion() {
+      return `v${version || '0.0.0'}`
     },
   },
   methods: {
