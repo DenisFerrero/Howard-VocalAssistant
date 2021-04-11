@@ -88,7 +88,7 @@ class Assistant:
             self.say()
 
   @staticmethod
-  def readConfig():
+  def read_config():
     # Declare default config
     config = ['Hey', 'Howard', '']
     # If the file exists

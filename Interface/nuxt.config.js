@@ -64,7 +64,7 @@ export default {
         // Assistant communication
         name: 'Assistant',
         // If not found env variable connect locally because the server is available on the same network (dev env)
-        url: process.env.ASSISTANT_SOCKET || 'http://127.0.0.1:5000',
+        url: process.env.ASSISTANT_SOCKET || 'http://localhost:5000',
         default: true,
         vuex: {
           mutations: ['assistant_config_res --> assistant/setAssistantConfig'],
