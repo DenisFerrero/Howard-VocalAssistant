@@ -1,4 +1,4 @@
-FROM python:slim-buster AS base
+FROM python AS base
 
 # Set environmental variable
 ENV LANG C.UTF-8
@@ -9,6 +9,7 @@ ENV PYTHONFAULTHANDLER 1
 FROM base AS python-deps
 
 RUN apt-get update
+
 # Install pipenv to manage dependencies
 RUN pip install pipenv
 
@@ -17,6 +18,7 @@ COPY Assistant/Pipfile .
 # Installation of packages useful to build pyAudio
 RUN apt-get update && apt-get install -y --no-install-recommends gcc
 RUN apt-get -y install portaudio19-dev
+RUN apt-get -y install espeak
 
 # Install of the packages
 RUN PIPENV_VENV_IN_PROJECT=1 pipenv install --deploy --skip-lock

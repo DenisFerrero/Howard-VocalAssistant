@@ -29,14 +29,14 @@ class Assistant:
       # Calibrate Microphone for ambient noises
       self.__recognizer.adjust_for_ambient_noise(MicSource)
     self.__offline_recognizer = KaldiRecognizer(Model('./lib/model-sm-en'), 44100)
-    self.__offline_speaker = pyttsx3.init()
+    self.__offline_speaker = pyttsx3.init('dummy')
     # Setting VocalAssistant gender
     if gender.lower() == 'female':
       voices = self.__offline_speaker.getProperty('voices')
       self.__offline_speaker.setProperty('voice', voices[1].id)
     self.__console.log(f'Vocal assistant successfully started. Trigger him by saying "{ self.__trigger_word } { self.__name }"')
     self.say(f"Hello I'm { self.__name } your Vocal assistant, you can activate me by saying { self.__trigger_word } { self.__name }")
-  
+
   # Listening function
   def listen(self, log_error = False):
     # Using mic
@@ -82,6 +82,7 @@ class Assistant:
           response = f'You said {listened}'
         if type(response) == str:
           # Play the response
+          self.__console.log(response)
           self.say(response)
         else:
           # Cannot understand what you said
