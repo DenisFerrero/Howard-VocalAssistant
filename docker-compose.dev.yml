@@ -1,0 +1,57 @@
+version: '3'
+services:
+  # Vocal assistant configuration
+  vocal-assistant:
+    build: ./Assistant
+    ports:
+      - "4000:4000"
+    volumes:
+      - ./config/:/home/dist/config
+      # Share device options with the container
+    #   - /boot:/boot
+    #   - /sys:/dockerhost/sys:ro
+    #   - /etc:/dockerhost/etc:ro
+    #   - /proc:/dockerhost/proc:ro
+    # devices:
+    #   # Share microphone and speaker to the container
+    #   - /dev/snd:/dev/snd
+    # command: ./wait_for_it.sh vosk:2700 -- npm run start:prod
+    networks: 
+      - prjNet
+    restart: 'unless-stopped'
+  # Browser interface configuration
+  web-interface:
+    build: ./Interface
+    environment:
+      # Social accounts + company info
+      # For social accounts remember to add 'https://' otherwise it'll be considered invalid
+      - SOCIAL_FACEBOOK=""
+      - SOCIAL_INSTAGRAM=""
+      - SOCIAL_GIT=https://github.com/DenisFerrero
+      - SOCIAL_LINKEDIN=""
+      - SOCIAL_TWITTER=""
+      - COMPANY_NAME=Denis Ferrero
+      # Chart element limit
+      - DATA_CHART_LIMIT=8
+    ports:
+      - "5000:5000"
+    depends_on:
+      - vocal-assistant
+    command: ./wait_for_it.sh vocal-assistant:4000 -- npm run start
+    networks:
+      - prjNet
+    restart: 'unless-stopped'
+  # Remote STT translator (https://github.com/alphacep/vosk-server)
+  # vosk:
+  #   image: alphacep/kaldi-en:latest
+  #   ports:
+  #     - "2700:2700"
+  # Remote TTS translator (https://github.com/synesthesiam/docker-mozillatts)
+  # mozillatts:
+  #   image: synesthesiam/mozillatts
+  #   ports:
+  #     - "5002:5002"
+
+networks:
+  prjNet:
+    name: vocalAssistantNet

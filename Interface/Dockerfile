@@ -2,8 +2,10 @@ FROM node:15.13-alpine
 
 # copy the app and sh files
 WORKDIR /usr/src/app/
-COPY ./Interface /usr/src/app/
-COPY ./sh /usr/src/app/
+COPY . /usr/src/app/
+
+# Make executable wait for it
+RUN chmod +x /usr/src/app/wait_for_it.sh
 
 # Add bash to run wait_for_it
 RUN apk add --no-cache bash
