@@ -6,6 +6,7 @@ import psutil
 import os
 
 class AssistantNamespace(Namespace):
+  assistant = False
   def on_connect(self):
     # Broadcasting the assistant's data, this way all interfaces are updated
     emit('assistant_config_res', assistant_info(self.assistant), broadcast=True)

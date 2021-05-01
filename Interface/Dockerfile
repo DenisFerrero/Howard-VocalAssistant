@@ -7,6 +7,9 @@ COPY . /usr/src/app/
 # Make executable wait for it
 RUN chmod +x /usr/src/app/wait_for_it.sh
 
+# Make executable wait for it
+RUN chmod +x /usr/src/app/wait_for_it.sh
+
 # Add bash to run wait_for_it
 RUN apk add --no-cache bash
 # Install node_modules
