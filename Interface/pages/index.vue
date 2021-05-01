@@ -110,7 +110,6 @@ export default {
   mounted() {
     this.socket = this.$nuxtSocket({
       name: 'Assistant',
-      channel: '/assistant',
       persist: true,
       // Keep the socket persistent, this way will kept active when changing language
     })
