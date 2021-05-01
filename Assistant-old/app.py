@@ -19,7 +19,7 @@ VA_gender = VA_settings[2]
 # Read server from ENV variable
 VA_server = os.getenv('SERVER', '')
 
-vocalAssistant = Assistant(VA_triggerWord, VA_name, VA_gender, VA_server)
+# vocalAssistant = Assistant(VA_triggerWord, VA_name, VA_gender, VA_server)
 
 # --- Flask configuration ---
 app = Flask(__name__)
@@ -46,4 +46,4 @@ if __name__ == '__main__':
   # Run socketIon
   socket_io.run(app, host='0.0.0.0')
   # Start vocal assistant
-  vocalAssistant.run()
+  # vocalAssistant.run()
