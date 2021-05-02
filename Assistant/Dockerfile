@@ -1,6 +1,6 @@
 # Using Node:10 Image Since it contains all the necessarity build tools required for dependencies with native build (node-gyp, python, gcc, g++, make)
 # First Stage : to install and build dependences
-FROM node:10 as builder
+FROM node:15.3 as builder
 WORKDIR /app
 COPY ./package.json ./
 RUN npm install
@@ -19,7 +19,7 @@ RUN chmod +x /app/wait_for_it.sh
 RUN npm run build
 
 # Second Stage : Setup command to run your app
-FROM node:10-alpine
+FROM node:15.3-alpine
 WORKDIR /app
 COPY --from=builder /app ./
 EXPOSE 4000
