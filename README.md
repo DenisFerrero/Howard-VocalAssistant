@@ -1,4 +1,4 @@
-# Howard-VocalAssistant
+# Howard
 
 Vocal assistant for developer
 
