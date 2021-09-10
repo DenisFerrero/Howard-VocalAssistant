@@ -1,26 +1,21 @@
 # Using Node:10 Image Since it contains all the necessarity build tools required for dependencies with native build (node-gyp, python, gcc, g++, make)
 # First Stage : to install and build dependences
-FROM node:15.3 as builder
+FROM node:16-alpine
 WORKDIR /app
 COPY ./package.json ./
-RUN npm install
+RUN apk add --no-cache curl
+# Install always the latest version of npm
+ADD https://www.npmjs.com/install.sh ./install.sh
+RUN sh install.sh
+RUN npm install --legacy-peer-deps
 
 COPY . .
 # Make executable wait for it
 RUN chmod +x /app/wait_for_it.sh
 
-# Offline speech models
-# RUN wget https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.pbmm
-# RUN wget https://github.com/mozilla/DeepSpeech/releases/download/v0.9.3/deepspeech-0.9.3-models.scorer
-
-# Additional lib
-# #TODO Install Sox
-
 RUN npm run build
 
-# Second Stage : Setup command to run your app
-FROM node:15.3-alpine
-WORKDIR /app
-COPY --from=builder /app ./
-EXPOSE 4000
-CMD ["npm", "run", "start:prod"]
+RUN apk add bash
+
+EXPOSE 4000 9229
+CMD ["npm", "run", "start:debug"]

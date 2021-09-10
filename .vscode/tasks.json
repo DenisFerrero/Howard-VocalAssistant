@@ -1,0 +1,35 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build_interface",
+            "command": "docker",
+            "args": ["build", "-t", "web-interface", "-f", "./Interface/Dockerfile", "./Interface"],
+            "type": "shell" 
+        },
+        {
+            "label": "build_assistant",
+            "command": "docker",
+            "args": ["build", "-t", "vocal-assistant", "-f", "./Assistant/Dockerfile", "./Assistant"],
+            "type": "shell"
+        },
+        
+        {
+            "label": "start_docker_compose",
+            "command": "docker-compose",
+            "args": ["-f", "docker-compose.dev.yml", "up", "-d"],
+            "type": "shell"
+        },
+        {
+            "label": "stop_docker_compose_debug",
+            "command": "docker-compose",
+            "args": ["-f", "docker-compose.dev.yml", "stop"],
+            "type": "shell"
+        },
+        {
+            "dependsOrder": "sequence",
+            "label": "start_docker",
+            "dependsOn": ["build_interface", "build_assistant", "start_docker_compose"]
+        },
+    ]
+}

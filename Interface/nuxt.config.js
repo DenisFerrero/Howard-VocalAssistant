@@ -76,5 +76,13 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
-}
+  build: {
+    // adding the below object made the compilation time go up again to 
+    //"normal" 
+    loaders:  {
+      vue: {
+        prettify: false
+      }
+    },
+  }
+};

@@ -2,9 +2,10 @@ version: '3'
 services:
   # Vocal assistant configuration
   vocal-assistant:
-    build: ./Assistant
+    image: vocal-assistant
     ports:
       - "4000:4000"
+      - "9229:9229"
     volumes:
       - ./config/:/home/dist/config
       # Share device options with the container
@@ -17,11 +18,11 @@ services:
     #   - /dev/snd:/dev/snd
     # command: ./wait_for_it.sh vosk:2700 -- npm run start:prod
     networks: 
-      - prjNet
+      - assistantNet
     restart: 'unless-stopped'
   # Browser interface configuration
   web-interface:
-    build: ./Interface
+    image: 'web-interface'
     environment:
       # Social accounts + company info
       # For social accounts remember to add 'https://' otherwise it'll be considered invalid
@@ -37,9 +38,9 @@ services:
       - "5000:5000"
     depends_on:
       - vocal-assistant
-    command: ./wait_for_it.sh vocal-assistant:4000 -- npm run start
+    command: sh -c "./wait_for_it.sh vocal-assistant:4000 -- npm run start"
     networks:
-      - prjNet
+      - assistantNet
     restart: 'unless-stopped'
   # Remote STT translator (https://github.com/alphacep/vosk-server)
   # vosk:
@@ -53,5 +54,5 @@ services:
   #     - "5002:5002"
 
 networks:
-  prjNet:
+  assistantNet:
     name: vocalAssistantNet
