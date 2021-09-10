@@ -2,7 +2,7 @@
 
 Vocal assistant for developer
 
-## Dev
+## Development
 
 ### Run assistant
 
@@ -21,13 +21,14 @@ cd ./Interface && npm run dev
 ### Build images
 
 ```shell
-docker-compose -f docker-compose.dev.yml build
+docker build -t web-interface -f ./Interface/Dockerfile ./Interface
+docker build -t vocal-assistant -f ./Assistant/Dockerfile ./Assistant
 ```
 
 ### Run the docker-compose
 
 ```shell
-docker-compose -f docker-compose.dev.yml build
+docker-compose -f docker-compose.dev.yml up
 ```
 
 ## Raspberry auto-installation (**Still untested!!**)
